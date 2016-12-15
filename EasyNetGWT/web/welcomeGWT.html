@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <meta name='gwt:module' content='br.com.easynet.gwt.EasyNetGWT=br.com.easynet.gwt.EasyNetGWT'>
+        <meta name="gwt:property" content="locale=pt_BR">
+        <title>EasyNetGWT</title>
+        <link rel="stylesheet" type="text/css" href="gxt/css/gxt-all.css" />
+        <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+        <script>
+            function rejeitaTecla(oEvent) {
+                var oEvent = oEvent ? oEvent : window.event;                
+                var tecla = (oEvent.keyCode) ? oEvent.keyCode : oEvent.which;
+                alert(tecla);
+                if (tecla == 17) {
+                    return false;
+                }
+            }
+            document.onkeypress = rejeitaTecla;
+            document.onkeydown = rejeitaTecla
+        </script>  
+    </head>
+
+    <body>
+        <script type="text/javascript"  src="br.com.easynet.gwt.EasyNetGWT/br.com.easynet.gwt.EasyNetGWT.nocache.js"></script>
+    </body>
+</html>
