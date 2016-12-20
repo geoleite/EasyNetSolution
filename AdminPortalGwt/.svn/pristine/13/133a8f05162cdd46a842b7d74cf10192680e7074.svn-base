@@ -1,0 +1,45 @@
+package br.com.i9.portal.dao;
+
+import java.util.*;
+import java.sql.*;
+import br.com.easynet.database.DataSet;
+import br.com.jdragon.dao.*;
+import br.com.i9.portal.transfer.*;
+
+public interface IMet_metodoDAO {
+
+    public void insert(Met_metodoT met_metodoT) throws Exception;
+
+    public void update(Met_metodoT met_metodoT) throws Exception;
+
+    public void delete(Met_metodoT met_metodoT) throws Exception;
+
+    public List<Met_metodoT> resultSetToObjectTransfer(ResultSet rs) throws Exception;
+
+    public List<Met_metodoT> getAll() throws Exception;
+
+    public List<Met_metodoT> getByPK(Met_metodoT met_metodoT) throws Exception;
+
+    public List<Met_metodoT> getByOpe_nr_id(Met_metodoT met_metodoT) throws Exception;
+
+    public List<Met_metodoT> getByOperacaoPerfil(Met_metodoT met_metodoT, Per_perfilT perT) throws Exception;
+
+    public List<Met_metodoT> getByOperacaoNaoPerfil(Met_metodoT met_metodoT, Per_perfilT perT) throws Exception;
+
+    public List<Met_metodoT> getByMet_nr_id(Met_metodoT met_metodoT) throws Exception;
+
+    public List<Met_metodoT> getByMet_tx_metodo(Met_metodoT met_metodoT) throws Exception;
+
+    public List<Met_metodoT> getByMet_tx_status(Met_metodoT met_metodoT) throws Exception;
+
+    public List<Met_metodoT> getBySis_nr_id(Met_metodoT met_metodoT) throws Exception;
+
+    public List<Met_metodoT> getByMet_tx_descricao(Met_metodoT met_metodoT) throws Exception;
+
+    public List<Met_metodoT> getByOpe_operacao(Met_metodoT met_metodoT) throws Exception;
+
+    public void close();
+
+    public DataSet executeQuery(String sql, Object[] parameter) throws Exception ;
+
+}

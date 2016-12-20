@@ -1,0 +1,49 @@
+package br.com.i9.portal.dao;
+
+import java.util.*;
+import java.sql.*;
+import br.com.easynet.database.DataSet;
+import br.com.jdragon.dao.*;
+import br.com.i9.portal.transfer.*;
+
+public interface IMen_menuDAO {
+
+    public void insert(Men_menuT men_menuT) throws Exception;
+
+    public void update(Men_menuT men_menuT) throws Exception;
+
+    public void delete(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> resultSetToObjectTransfer(ResultSet rs) throws Exception;
+
+    public List<Men_menuT> getAll() throws Exception;
+
+    public List<Men_menuT> getByPK(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> getByMen_nr_id(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> getByPerfil(Per_perfilT perT) throws Exception;
+
+    public List<Men_menuT> getByNotPerfil(Per_perfilT perT) throws Exception;
+
+    public List<Men_menuT> getBySupermenu_nr_id(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> getByMen_tx_status(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> getByMen_tx_nome(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> getByMen_nr_ordem(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> getByMen_tx_url(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> getByMen_tx_acao(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> getBySis_nr_id(Men_menuT men_menuT) throws Exception;
+
+    public List<Men_menuT> getByMen_tx_icone(Men_menuT men_menuT) throws Exception;
+
+    public void close();
+
+    public DataSet executeQuery(String sql, Object[] parameter) throws Exception ;
+
+}
