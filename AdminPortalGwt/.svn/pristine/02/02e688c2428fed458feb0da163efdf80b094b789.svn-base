@@ -1,0 +1,133 @@
+package br.com.i9.portal.bl	;
+
+import java.util.List;
+import br.com.jdragon.dao.DAOFactory;
+import br.com.i9.portal.dao.*;
+import br.com.i9.portal.transfer.*;
+import br.com.easynet.bl.BusinessException;
+
+
+
+/** Classe Criada Automaticamente pelo "EasyNet Generate JDragon" */
+
+public class Men_menuBL  extends SystemBusinessBase {
+
+
+  /**
+   * Insere um registro na tabela
+   */	  
+  public boolean insert(Men_menuT men_menuT) throws Exception {
+    
+    try {
+      if (!valide("insert")) {
+	throw new BusinessException("Falha na seguranca !");
+      }
+      getMen_menuDAO().insert(men_menuT);
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+  } 
+
+  /**
+   * Consulta todos os registros da tabela
+   */	
+  public List<Men_menuT> consult() throws Exception {
+    try {
+      if (!valide("consult")) {
+	throw new BusinessException("Falha na seguranca !");
+      }
+      return getMen_menuDAO().getAll();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+
+  }  
+
+  /**
+   * Deletar um registro
+   */	
+  public boolean delete(Men_menuT men_menuT) throws Exception {
+    try {
+      if (!valide("delete")) {
+	throw new BusinessException("Falha na seguranca !");
+      }
+
+      if (exist(men_menuT)) {
+        getMen_menuDAO().delete(men_menuT);
+        return true;
+      } else {  
+	return false;
+      } 
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+  } 
+
+  /**
+   * Verifica se o objeto existe na base
+   */
+  public boolean exist(Men_menuT men_menuT) throws Exception {
+   try {
+	
+      List<Men_menuT> listTemp  = getMen_menuDAO().getByPK(men_menuT);
+
+      return listTemp.size()>0;      
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+	
+  }
+
+  /**
+   * Realiza uma alterac?o na tabela
+   */	
+  public boolean update(Men_menuT men_menuT) throws Exception {
+    try {
+      if (!valide("update")) {
+	throw new BusinessException("Falha na seguranca !");
+      }
+
+      if (exist(men_menuT)) {
+        getMen_menuDAO().update(men_menuT);
+	return true;        
+      } else {  
+	return false;
+      } 
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+  }   
+
+  /**
+   * Obt?m os dados de um registro
+   */	
+  public Men_menuT findbyid(Men_menuT men_menuT) throws Exception {
+    try {
+      List<Men_menuT> listTemp  = getMen_menuDAO().getByPK( men_menuT);
+
+      return listTemp.size()>0?listTemp.get(0):new Men_menuT();      
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+  }    
+
+}

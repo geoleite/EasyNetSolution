@@ -1,0 +1,135 @@
+package br.com.i9.portal.bl	;
+
+import java.util.List;
+import br.com.jdragon.dao.DAOFactory;
+import br.com.i9.portal.dao.*;
+import br.com.i9.portal.transfer.*;
+import br.com.easynet.bl.BusinessException;
+
+
+
+/** Classe Criada Automaticamente pelo "EasyNet Generate JDragon" */
+
+public class Usu_usuarioBL  extends SystemBusinessBase {
+
+
+  /**
+   * Insere um registro na tabela
+   */	  
+  public boolean insert(Usu_usuarioT usu_usuarioT) throws Exception {
+    
+    try {
+      if (!valide("insert")) {
+	throw new BusinessException("Falha na seguranca !");
+      }
+      getUsu_usuarioDAO().insert(usu_usuarioT);
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+  } 
+
+  /**
+   * Consulta todos os registros da tabela
+   */	
+  public List<Usu_usuarioT> consult() throws Exception {
+    try {
+      if (!valide("consult")) {
+	throw new BusinessException("Falha na seguranca !");
+      }
+      
+      return getUsu_usuarioDAO().getAll();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+
+  }  
+
+  /**
+   * Deletar um registro
+   */	
+  public boolean delete(Usu_usuarioT usu_usuarioT) throws Exception {
+    try {
+      if (!valide("delete")) {
+	throw new BusinessException("Falha na seguranca !");
+      }
+
+      if (exist(usu_usuarioT)) {
+        getUsu_usuarioDAO().delete(usu_usuarioT);
+        return true;
+      } else {  
+	return false;
+      } 
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+  } 
+
+  /**
+   * Verifica se o objeto existe na base
+   */
+  public boolean exist(Usu_usuarioT usu_usuarioT) throws Exception {
+   try {
+	      
+      List<Usu_usuarioT> listTemp  = getUsu_usuarioDAO().getByPK(usu_usuarioT);
+
+      return listTemp.size()>0;      
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+	
+  }
+
+  /**
+   * Realiza uma alterac?o na tabela
+   */	
+  public boolean update(Usu_usuarioT usu_usuarioT) throws Exception {
+    try {
+      if (!valide("update")) {
+	throw new BusinessException("Falha na seguranca !");
+      }
+
+      if (exist(usu_usuarioT)) {
+        
+        getUsu_usuarioDAO().update(usu_usuarioT);
+	return true;        
+      } else {  
+	return false;
+      } 
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+  }   
+
+  /**
+   * Obt?m os dados de um registro
+   */	
+  public Usu_usuarioT findbyid(Usu_usuarioT usu_usuarioT) throws Exception {
+    try {
+      List<Usu_usuarioT> listTemp  = getUsu_usuarioDAO().getByPK( usu_usuarioT);
+
+      return listTemp.size()>0?listTemp.get(0):new Usu_usuarioT();      
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    } finally {
+	close();
+    }
+  }    
+
+}

@@ -1,0 +1,46 @@
+package br.com.i9.portal.dao;
+
+import java.util.*;
+import java.sql.*;
+import br.com.easynet.database.DataSet;
+import br.com.jdragon.dao.*;
+import br.com.i9.portal.transfer.*;
+
+public interface IUsu_usuarioDAO {
+
+    public void insert(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public void update(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public void updateSenha(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public void delete(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public List<Usu_usuarioT> resultSetToObjectTransfer(ResultSet rs) throws Exception;
+
+    public List<Usu_usuarioT> getAll() throws Exception;
+
+    public List<Usu_usuarioT> getByPK(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public List<Usu_usuarioT> getByUsu_nr_id(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public List<Usu_usuarioT> getByPerfil(Per_perfilT perT) throws Exception;
+
+    public List<Usu_usuarioT> getByNotPerfil(Per_perfilT perT) throws Exception;
+
+    public List<Usu_usuarioT> getByUsu_tx_nome(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public List<Usu_usuarioT> getByNomeLogin(String texto) throws Exception;
+
+    public List<Usu_usuarioT> getByUsu_tx_login(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public List<Usu_usuarioT> getByUsu_tx_senha(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public List<Usu_usuarioT> getByUsu_tx_status(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public List<Usu_usuarioT> getByUsu_tx_email(Usu_usuarioT usu_usuarioT) throws Exception;
+
+    public void close();
+
+    public DataSet executeQuery(String sql, Object[] parameter) throws Exception ;
+}

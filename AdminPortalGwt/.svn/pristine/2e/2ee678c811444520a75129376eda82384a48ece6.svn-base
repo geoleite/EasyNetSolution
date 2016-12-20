@@ -1,0 +1,380 @@
+package br.com.i9.portal.dao;
+
+import java.util.*;
+import java.sql.*;
+import br.com.easynet.database.DataSet;
+import br.com.jdragon.dao.*;
+import br.com.i9.portal.transfer.*;
+
+public class Men_menuDAO_Oracle extends ObjectDAO implements IMen_menuDAO {
+
+    public Men_menuDAO_Oracle(DAOFactory dao) throws Exception {
+        setDAOFactory(dao);
+        con = dao.create();
+    }
+
+    public void insert(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        try {
+            String sql = "insert into usr_portal.men_menu  ( supermenu_nr_id, men_tx_status, men_tx_nome, men_nr_ordem, men_tx_url, men_tx_acao, sis_nr_id, men_tx_icone, men_tx_tipo) values (?, ? , ? , ? , ? , ? , ? , ? , ? )";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, men_menuT.getSupermenu_nr_id());
+            pStmt.setObject(2, men_menuT.getMen_tx_status());
+            pStmt.setObject(3, men_menuT.getMen_tx_nome());
+            pStmt.setObject(4, men_menuT.getMen_nr_ordem());
+            pStmt.setObject(5, men_menuT.getMen_tx_url() != null ? men_menuT.getMen_tx_url() : "");
+            pStmt.setObject(6, men_menuT.getMen_tx_acao() != null ? men_menuT.getMen_tx_acao() : "");
+            pStmt.setObject(7, men_menuT.getSis_nr_id());
+            pStmt.setObject(8, men_menuT.getMen_tx_icone() != null ? men_menuT.getMen_tx_icone() : "");
+            pStmt.setObject(9, men_menuT.getMen_tx_tipo());
+            pStmt.execute();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public void update(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        try {
+            String sql = "update usr_portal.men_menu set  supermenu_nr_id=?, men_tx_status=?, men_tx_nome=?, men_nr_ordem=?, men_tx_url=?, men_tx_acao=?, sis_nr_id=?, men_tx_icone=?, men_tx_tipo=?  where  men_nr_id=?";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, men_menuT.getSupermenu_nr_id());
+            pStmt.setObject(2, men_menuT.getMen_tx_status());
+            pStmt.setObject(3, men_menuT.getMen_tx_nome());
+            pStmt.setObject(4, men_menuT.getMen_nr_ordem());
+            pStmt.setObject(5, men_menuT.getMen_tx_url());
+            pStmt.setObject(6, men_menuT.getMen_tx_acao());
+            pStmt.setObject(7, men_menuT.getSis_nr_id());
+            pStmt.setObject(8, men_menuT.getMen_tx_icone());
+            pStmt.setObject(9, men_menuT.getMen_tx_tipo());
+            pStmt.setObject(10, men_menuT.getMen_nr_id());
+            pStmt.execute();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public void delete(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        try {
+            String sql = "delete from usr_portal.men_menu where  men_nr_id=?";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, men_menuT.getMen_nr_id());
+            pStmt.execute();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> resultSetToObjectTransfer(ResultSet rs) throws Exception {
+        List<Men_menuT> objs = new Vector();
+        while (rs.next()) {
+            Men_menuT men_menuT = new Men_menuT();
+            men_menuT.setMen_nr_id(rs.getInt("men_nr_id"));
+            men_menuT.setSupermenu_nr_id(rs.getInt("supermenu_nr_id"));
+            men_menuT.setMen_tx_status(rs.getString("men_tx_status"));
+            men_menuT.setMen_tx_nome(rs.getString("men_tx_nome"));
+            men_menuT.setMen_nr_ordem(rs.getInt("men_nr_ordem"));
+            men_menuT.setMen_tx_url(rs.getString("men_tx_url"));
+            men_menuT.setMen_tx_acao(rs.getString("men_tx_acao"));
+            men_menuT.setSis_nr_id(rs.getInt("sis_nr_id"));
+            men_menuT.setMen_tx_icone(rs.getString("men_tx_icone"));
+            try {
+                men_menuT.setMen_tx_tipo(rs.getString("men_tx_tipo"));
+            } catch (Exception e) {
+            }
+            objs.add(men_menuT);
+        }
+        return objs;
+    }
+
+    public List<Men_menuT> getAll() throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu order by men_nr_ordem, men_tx_nome";
+            pStmt = con.prepareStatement(sql);
+            rs = pStmt.executeQuery();
+            List<Men_menuT> list = resultSetToObjectTransfer(rs);
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getByPK(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  men_nr_id=?";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, men_menuT.getMen_nr_id());
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getByMen_nr_id(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  men_nr_id = ? ";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, men_menuT.getMen_nr_id());
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    public List<Men_menuT> getByPerfil(Per_perfilT perT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu men where men.men_nr_id  in (select distinct men_nr_id from usr_portal.mep_men_per where per_nr_id=?)  order by men_nr_ordem, men_tx_nome";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, perT.getPer_nr_id());
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getByNotPerfil(Per_perfilT perT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu men where men.men_nr_id not in (select distinct men_nr_id from usr_portal.mep_men_per where per_nr_id=?)  order by men_nr_ordem, men_tx_nome";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, perT.getPer_nr_id());
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getBySupermenu_nr_id(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  supermenu_nr_id = ? order by men_nr_ordem, men_tx_nome";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, men_menuT.getSupermenu_nr_id());
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getByMen_tx_status(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  Upper(men_tx_status) like Upper(?) ";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, '%' + men_menuT.getMen_tx_status() + '%');
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getByMen_tx_nome(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  Upper(men_tx_nome) like Upper(?) ";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, '%' + men_menuT.getMen_tx_nome() + '%');
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getByMen_nr_ordem(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  men_nr_ordem = ? order by men_nr_ordem";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, men_menuT.getMen_nr_ordem());
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getByMen_tx_url(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  Upper(men_tx_url) like Upper(?) ";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, '%' + men_menuT.getMen_tx_url() + '%');
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getByMen_tx_acao(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  Upper(men_tx_acao) like Upper(?) ";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, '%' + men_menuT.getMen_tx_acao() + '%');
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getBySis_nr_id(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  sis_nr_id = ? order by men_nr_ordem, men_tx_nome";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, men_menuT.getSis_nr_id());
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
+    public List<Men_menuT> getByMen_tx_icone(Men_menuT men_menuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from usr_portal.men_menu where  Upper(men_tx_icone) like Upper(?) ";
+            pStmt = con.prepareStatement(sql);
+            pStmt.setObject(1, '%' + men_menuT.getMen_tx_icone() + '%');
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
+}
