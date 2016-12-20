@@ -54,6 +54,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import java.util.Date;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -169,12 +170,11 @@ public class Sis_sistemaConsultGWT extends ConsultarBaseGWT {
             
             @Override
             public void onFailure(Throwable caught) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                Window.alert("Erro: " + caught.getCause().getMessage());
             }
             
             @Override
             public void onSuccess(List<Sis_sistemaTGWT> result) {
-                
                 List lista = getCpMaster().getItems();
                 if (lista.size() > 0) {
                     getCpMaster().removeAll();

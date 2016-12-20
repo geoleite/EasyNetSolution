@@ -41,7 +41,7 @@ public class Sis_sistemaBL  extends SystemBusinessBase {
       if (!valide("consult")) {
 	throw new BusinessException("Falha na seguranca !");
       }
-      
+        System.out.println("Consultando sistemas na base");
       return getSis_sistemaDAO().getAll();
     } catch (Exception e) {
       e.printStackTrace();

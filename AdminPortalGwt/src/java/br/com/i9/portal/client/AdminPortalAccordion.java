@@ -1,5 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this template, choose Tools | Templates 
  * and open the template in the editor.
  */
 package br.com.i9.portal.client;
@@ -42,7 +42,6 @@ public class AdminPortalAccordion extends AMenuHandlerAccordion {
     public void actionEventMenu(Object me, String acao, String url) {
         TabItem tabItem = null;
         tabItem = itens.get(acao);
-
         if (tabItem == null) {
             tabItem = new TabItem();
             tabItem.setClosable(true);
@@ -85,14 +84,16 @@ public class AdminPortalAccordion extends AMenuHandlerAccordion {
                 //Adiciona o tabitem se nÃ£o existir no tabPanel
                 getPortalAccordionGWT().getTabPanel().add(tabItem);
                 itens.put(acao, tabItem);
+                getPortalAccordionGWT().getTabPanel().setSelection(tabItem);
             }
         } else {
             TabItem tabTemp = getPortalAccordionGWT().getTabPanel().getItemByItemId(acao);
             if (tabTemp == null) {
                 getPortalAccordionGWT().getTabPanel().add(tabItem);
+                getPortalAccordionGWT().getTabPanel().setSelection(tabItem);
             }
         }
-        getPortalAccordionGWT().getTabPanel().setSelection(tabItem);
+        
         getPortalAccordionGWT().layout();
     }
 
