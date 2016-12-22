@@ -264,7 +264,6 @@ public class Per_perfilConsultGWT extends ConsultaGWTHeight {
     public void montarPnl_menu(Per_perfilTGWT per_perfilTGWT) {
         pnlMenu.removeAll();
 
-        
         AsyncCallback<List<Men_menuTGWT>> callback = new AsyncCallback<List<Men_menuTGWT>>() {
 
             @Override
@@ -274,17 +273,17 @@ public class Per_perfilConsultGWT extends ConsultaGWTHeight {
 
             @Override
             public void onSuccess(List<Men_menuTGWT> result) {
-                
+
                 ListStore<Men_menuTGWT> list = new ListStore<Men_menuTGWT>();
                 list.add(result);
                 MenuPerfilGWT menuPerfilGWT = new MenuPerfilGWT();
                 menuPerfilGWT.load(list);
                 pnlMenu.add(menuPerfilGWT);
                 pnlMenu.layout();
-                
+
             }
         };
-        
+
         Men_menuServiceAsync serviceAsync = EasyAdmPortalRPCFactory.getMen_MenuService();
         serviceAsync.consultByPerfil(per_perfilTGWT, callback);
 
@@ -334,7 +333,7 @@ public class Per_perfilConsultGWT extends ConsultaGWTHeight {
                 pnlOpera.add(grid);
                 layout();
                 doLayout();
-                
+
             }
         };
         Ope_operacaoServiceAsync service = EasyAdmPortalRPCFactory.getOpe_operacaoService();
@@ -544,16 +543,17 @@ public class Per_perfilConsultGWT extends ConsultaGWTHeight {
     }
 
     public void load() {
-        AsyncCallback<List<Per_perfilTGWT>> asyncCallback = new AsyncCallback<List<Per_perfilTGWT>>() {
+
+        Per_perfilServiceAsync async = EasyAdmPortalRPCFactory.getPer_PerfilService();
+        async.getAll(new AsyncCallback<List<Per_perfilTGWT>>() {
 
             @Override
             public void onFailure(Throwable caught) {
-                MessageBox.info("Atenção", "Erro ao consultar perfis: "+caught.getMessage(), null);
+                Window.alert(caught.getMessage());
             }
 
             @Override
             public void onSuccess(List<Per_perfilTGWT> result) {
-                
                 List lista = getCpMaster().getItems();
                 ListStore<Per_perfilTGWT> list = new ListStore<Per_perfilTGWT>();
                 list.add(result);
@@ -591,11 +591,11 @@ public class Per_perfilConsultGWT extends ConsultaGWTHeight {
 
                 getCpMaster().add(grid);
                 getCpMaster().layout();
-
             }
-        };
-        Per_perfilServiceAsync async = EasyAdmPortalRPCFactory.getPer_PerfilService();
-        async.getAll(asyncCallback);
+        });
+
+  
+        
     }
 
 //    public void load() {
