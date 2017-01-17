@@ -9,6 +9,8 @@ import br.com.easynet.gwt.client.component.EasyTextField;
 import br.com.i9.portal.client.portal.portal.transfer.*;
 import br.com.i9.portal.client.portal.portal.dao.*;
 import br.com.easynet.gwt.client.AlterarExcluirBaseGWT;
+import br.com.i9.portal.client.rpc.EasyAdmPortalRPCFactory;
+import br.com.i9.portal.client.rpc.Usu_usuarioServiceAsync;
 
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONValue;
@@ -28,6 +30,7 @@ import com.extjs.gxt.ui.client.event.MessageBoxEvent;
 import com.extjs.gxt.ui.client.widget.Dialog;
 import com.extjs.gxt.ui.client.widget.form.Radio;
 import com.extjs.gxt.ui.client.widget.form.RadioGroup;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  *
@@ -78,7 +81,7 @@ public class AlterarSenhaGWT extends AlterarExcluirBaseGWT {
         LabelField lfusu_tx_ConfSenha = new LabelField("Conf. Senha:");
         lfusu_tx_senha.setId("lfusu_tx_confsenha");
         getCpMaster().add(lfusu_tx_ConfSenha);
-        
+
         usu_tx_confSenha.setPassword(true);
         usu_tx_confSenha.setId("usu_tx_confsenha");
         usu_tx_confSenha.setMaxLength(50);
@@ -109,26 +112,43 @@ public class AlterarSenhaGWT extends AlterarExcluirBaseGWT {
 
     public void btnUpdateAction(ButtonEvent ce) {
         if (valide()) {
+            
             usu_usuarioT.setUsu_tx_senha(usu_tx_senha.getValue());
-            usu_usuarioDao.alterarSenha(usu_usuarioT);
-            Timer timer = new Timer() {
+            //usu_usuarioDao.alterarSenha(usu_usuarioT);
+            AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 
-                public void run() {
-                    String msg = usu_usuarioDao.getMsg();
-                    if (msg == null) {
-                        schedule(500);
-                    } else {
-                        if (msg.toUpperCase().indexOf("FALHA") >= 0) {
-                            MessageBox.alert("Problemas", msg, null);
-                        } else {
-                            Info.display("Resultado", msg);
-                            usu_usuarioConsult.load();
-                            setVisible(false);
-                        }
-                    }
+                @Override
+                public void onFailure(Throwable caught) {
+                    MessageBox.info("AVISO", "Falha ao alterar senha: " + caught.getCause().getMessage(), null);
+                }
+
+                @Override
+                public void onSuccess(Void result) {
+                    Info.display("Mensagem", "Senha alterada com sucesso");
+                    usu_usuarioConsult.load();
                 }
             };
-            timer.schedule(500);
+            Usu_usuarioServiceAsync async = EasyAdmPortalRPCFactory.getUsu_UsuarioService();
+            async.updatePassword(usu_usuarioT, usu_tx_senha.getValue(), callback);
+
+//            Timer timer = new Timer() {
+//
+//                public void run() {
+//                    String msg = usu_usuarioDao.getMsg();
+//                    if (msg == null) {
+//                        schedule(500);
+//                    } else {
+//                        if (msg.toUpperCase().indexOf("FALHA") >= 0) {
+//                            MessageBox.alert("Problemas", msg, null);
+//                        } else {
+//                            Info.display("Resultado", msg);
+//                            usu_usuarioConsult.load();
+//                            setVisible(false);
+//                        }
+//                    }
+//                }
+//            };
+//            timer.schedule(500);
         }
     }
 

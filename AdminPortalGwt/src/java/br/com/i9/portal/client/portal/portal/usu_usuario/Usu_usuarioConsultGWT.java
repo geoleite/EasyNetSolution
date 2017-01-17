@@ -185,51 +185,33 @@ public class Usu_usuarioConsultGWT extends CPConsultarBaseGWT {
                 b.addListener(Events.OnClick, new Listener<ButtonEvent>() {
 
                     public void handleEvent(ButtonEvent be) {
-//                        AlterarSenhaGWT alterarSenhaGWT = new AlterarSenhaGWT();
-//                        alterarSenhaGWT.setUsu_usuarioConsult(Usu_usuarioConsultGWT.this);
-//                        alterarSenhaGWT.load(model);
-//                        alterarSenhaGWT.setVisible(true);
-                        MessageBox.confirm("Aviso", "Tem certeza que deseja gerar nova senha para o usuario?", new Listener<MessageBoxEvent>() {
-
-                            public void handleEvent(MessageBoxEvent be) {
-
-                                if (new Dialog().yesText.equalsIgnoreCase(be.getButtonClicked().getText())) {
-
-                                    AsyncCallback<Void> callback = new AsyncCallback<Void>() {
-
-                                        @Override
-                                        public void onFailure(Throwable caught) {
-                                            MessageBox.info("IMPORTANTE", "Falha ao realizar a operação", null);
-                                        }
-
-                                        @Override
-                                        public void onSuccess(Void result) {
-                                            Info.display("Resultado", "sucesso!");
-                                        }
-                                    };
-                                    Usu_usuarioServiceAsync async = EasyAdmPortalRPCFactory.getUsu_UsuarioService();
-                                    async.gerarNovaSenha(model, callback);
-
-//                                   usu_usuarioDao.gerarNovaSenha(model);
-//                                    Timer timer = new Timer() {
+                        AlterarSenhaGWT alterarSenhaGWT = new AlterarSenhaGWT();
+                        alterarSenhaGWT.setUsu_usuarioConsult(Usu_usuarioConsultGWT.this);
+                        alterarSenhaGWT.load(model);
+                        alterarSenhaGWT.setVisible(true);
+//                        MessageBox.confirm("Aviso", "Tem certeza que deseja gerar nova senha para o usuario?", new Listener<MessageBoxEvent>() {
 //
-//                                        public void run() {
-//                                            String msg = usu_usuarioDao.getMsg();
-//                                            if (msg == null) {
-//                                                schedule(500);
-//                                            } else {
-//                                                if (msg.toUpperCase().indexOf("FALHA") >= 0) {
-//                                                    MessageBox.alert("ATENÇÃO", msg, null);
-//                                                } else {
-//                                                    Info.display("Resultado", msg);
-//                                                }
-//                                            }
+//                            public void handleEvent(MessageBoxEvent be) {
+//
+//                                if (new Dialog().yesText.equalsIgnoreCase(be.getButtonClicked().getText())) {
+//
+//                                    AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+//
+//                                        @Override
+//                                        public void onFailure(Throwable caught) {
+//                                            MessageBox.info("IMPORTANTE", "Falha ao realizar a operação", null);
+//                                        }
+//
+//                                        @Override
+//                                        public void onSuccess(Void result) {
+//                                            Info.display("Resultado", "sucesso!");
 //                                        }
 //                                    };
-//                                    timer.schedule(500);
-                                }
-                            }
-                        });
+//                                    Usu_usuarioServiceAsync async = EasyAdmPortalRPCFactory.getUsu_UsuarioService();
+//                                    async.gerarNovaSenha(model, callback);
+//                                }
+//                            }
+//                        });
                     }
                 });
 

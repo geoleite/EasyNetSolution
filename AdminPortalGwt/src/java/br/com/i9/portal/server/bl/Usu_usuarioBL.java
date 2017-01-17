@@ -37,14 +37,14 @@ public class Usu_usuarioBL extends SystemBusinessBase {
             close();
         }
     }
-    
-        public List<Usu_usuarioTGWT> consultByNomeLogin(String login) {
+
+    public List<Usu_usuarioTGWT> consultByNomeLogin(String login) {
         try {
             IUsu_usuarioDAO usu_usuarioDAO = getUsu_usuarioDAO();
             return usu_usuarioDAO.getByNomeLogin(login);
         } catch (Exception e) {
             e.printStackTrace();
-            
+
         } finally {
             close();
         }
@@ -156,6 +156,40 @@ public class Usu_usuarioBL extends SystemBusinessBase {
         }
     }
 
+    public boolean updatePassword(Usu_usuarioTGWT usu_usuarioT, String novaSenha) throws Exception {
+        try {
+            if (!valide("updatePassword")) {
+                throw new BusinessException("Falha na seguranca !");
+            }
+            
+            usu_usuarioT.setUsu_tx_senha(MD5.criptografar(novaSenha));
+            getUsu_usuarioDAO().updateSenha(usu_usuarioT);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            close();
+        }
+    }
+
+    public boolean updatePasswordByUsuario(Usu_usuarioTGWT usu_usuarioT, String novaSenha) throws Exception {
+        try {
+            if (!valide("updatePassword")) {
+                throw new BusinessException("Falha na seguranca !");
+            }
+            
+            usu_usuarioT.setUsu_tx_senha(MD5.criptografar(novaSenha));
+            getUsu_usuarioDAO().updateSenhaByUsuario(usu_usuarioT);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            close();
+        }
+    }
+    
     /**
      * Obt?m os dados de um registro
      */
@@ -206,13 +240,13 @@ public class Usu_usuarioBL extends SystemBusinessBase {
                 usu_usuarioT.setUsu_tx_senha(MD5.criptografar(novaSenha));
 
                 getUsu_usuarioDAO().updateSenha(usu_usuarioT);
-                enviarEmail(usu_usuarioT,novaSenha);
+                enviarEmail(usu_usuarioT, novaSenha);
             } else {
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
-            
+
         } finally {
             close();
         }

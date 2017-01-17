@@ -36,5 +36,8 @@ public interface Usu_usuarioServiceAsync {
 
     public void delete(Usu_usuarioTGWT usu_usuarioTGWT, AsyncCallback<Void> asyncCallback);
 
+    public void updatePassword(Usu_usuarioTGWT usu_usuarioTGWT, String novaSenha, AsyncCallback<Void> asyncCallback);
+
+
 
 }
