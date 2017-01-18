@@ -161,7 +161,7 @@ public class Usu_usuarioBL extends SystemBusinessBase {
             if (!valide("updatePassword")) {
                 throw new BusinessException("Falha na seguranca !");
             }
-            
+
             usu_usuarioT.setUsu_tx_senha(MD5.criptografar(novaSenha));
             getUsu_usuarioDAO().updateSenha(usu_usuarioT);
             return true;
@@ -173,15 +173,36 @@ public class Usu_usuarioBL extends SystemBusinessBase {
         }
     }
 
+    public String valideSenha(String senhaAtual, String novaSenha) {
+        if (senhaAtual == null || senhaAtual.trim().length() == 0) {
+            return "Senha atual nao pode ser vazia";
+        } else if (senhaAtual.equalsIgnoreCase(novaSenha)) {
+            return "A nova senha nao pode ser igual à senha atual";
+        } else if (novaSenha == null || novaSenha.trim().length() < 6) {
+            return "a nova senha nao pode ser vazia ou menor que 6";
+        }
+        return null;
+    }
+
     public boolean updatePasswordByUsuario(Usu_usuarioTGWT usu_usuarioT, String novaSenha) throws Exception {
         try {
             if (!valide("updatePassword")) {
                 throw new BusinessException("Falha na seguranca !");
             }
-            
-            usu_usuarioT.setUsu_tx_senha(MD5.criptografar(novaSenha));
-            getUsu_usuarioDAO().updateSenhaByUsuario(usu_usuarioT);
-            return true;
+            String msg = valideSenha(usu_usuarioT.getUsu_tx_senha(), novaSenha);
+            if (msg != null) {
+                throw new Exception(msg); 
+            } else {
+                usu_usuarioT.setUsu_tx_senha(MD5.criptografar(usu_usuarioT.getUsu_tx_senha()));
+                Usu_usuarioTGWT usuT = getUsu_usuarioDAO().getConfirmeSenha(usu_usuarioT);
+                if (usuT == null) {
+                    return false;
+                } else {
+                    usu_usuarioT.setUsu_tx_senha(MD5.criptografar(novaSenha));
+                    getUsu_usuarioDAO().updateSenhaByUsuario(usu_usuarioT);
+                }
+                return true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -189,7 +210,7 @@ public class Usu_usuarioBL extends SystemBusinessBase {
             close();
         }
     }
-    
+
     /**
      * Obt?m os dados de um registro
      */

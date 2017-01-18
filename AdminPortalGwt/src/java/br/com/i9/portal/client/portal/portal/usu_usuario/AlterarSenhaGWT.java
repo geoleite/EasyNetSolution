@@ -50,7 +50,7 @@ public class AlterarSenhaGWT extends AlterarExcluirBaseGWT {
 
     public AlterarSenhaGWT() {
         setHeading("Alterar Senha Usuário");
-        this.setSize("350", "250");
+        this.setSize("350", "230");
         TableLayout tl = new TableLayout(2);
         tl.setCellPadding(4);
         getCpMaster().setLayout(tl);
@@ -126,6 +126,7 @@ public class AlterarSenhaGWT extends AlterarExcluirBaseGWT {
                 public void onSuccess(Void result) {
                     Info.display("Mensagem", "Senha alterada com sucesso");
                     usu_usuarioConsult.load();
+                    setVisible(false);
                 }
             };
             Usu_usuarioServiceAsync async = EasyAdmPortalRPCFactory.getUsu_UsuarioService();

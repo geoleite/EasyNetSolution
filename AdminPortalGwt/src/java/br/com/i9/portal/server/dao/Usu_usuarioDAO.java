@@ -232,6 +232,32 @@ public class Usu_usuarioDAO extends ObjectDAOClusterAdminPortal implements IUsu_
         }
     }
 
+    public Usu_usuarioTGWT getConfirmeSenha(Usu_usuarioTGWT usuT) throws Exception {
+        PreparedStatement pStmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from portal.usu_usuario where  usu_tx_senha = ? and usu_nr_id=? ";
+            pStmt = createPrepareStatment(sql);
+            pStmt.setObject(1, usuT.getUsu_tx_senha());
+            pStmt.setObject(2, usuT.getUsu_nr_id());
+            rs = pStmt.executeQuery();
+            List<Usu_usuarioTGWT> list = resultSetToObjectTransfer(rs);
+            return list.size() > 0?list.get(0):null;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+            try {
+                close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
     public List<Usu_usuarioTGWT> getByUsu_tx_senha(Usu_usuarioTGWT usu_usuarioT) throws Exception {
         PreparedStatement pStmt = null;
         ResultSet rs = null;
@@ -253,7 +279,6 @@ public class Usu_usuarioDAO extends ObjectDAOClusterAdminPortal implements IUsu_
                 close();
             } catch (Exception e) {
             }
-
         }
     }
 

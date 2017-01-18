@@ -45,4 +45,6 @@ public interface IUsu_usuarioDAO {
     public void close();
 
     public DataSet executeQuery(String sql, Object[] parameter) throws Exception;
+    
+    public Usu_usuarioTGWT getConfirmeSenha(Usu_usuarioTGWT usuT) throws Exception;
 }

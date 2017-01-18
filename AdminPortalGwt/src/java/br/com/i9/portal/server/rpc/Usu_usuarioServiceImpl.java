@@ -76,6 +76,6 @@ public class Usu_usuarioServiceImpl extends RemoteServiceServlet implements Usu_
 
     @Override
     public void updatePassword(Usu_usuarioTGWT usu_usuarioTGWT, String novaSenha) throws Exception {
-        ubl.update(usu_usuarioTGWT);
+        ubl.updatePassword(usu_usuarioTGWT, novaSenha);
     }
 }
