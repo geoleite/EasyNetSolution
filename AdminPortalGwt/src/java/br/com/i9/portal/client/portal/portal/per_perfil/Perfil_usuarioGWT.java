@@ -322,30 +322,5 @@ public class Perfil_usuarioGWT extends BaseBorderLayoutGWT {
         Pu_per_usuTServiceAsync async = EasyAdmPortalRPCFactory.getPu_Per_UsuService();
         async.insert(puT, callback);
 
-//        
-//        puDao.inserir(puT);
-//        Timer timer = new Timer() {
-//
-//            public void run() {
-//                String msg = puDao.getMsg();
-//                if (msg == null) {
-//                    schedule(500);
-//                } else {
-//                    if (msg.toUpperCase().indexOf("FALHA") >= 0) {
-//                        MessageBox.alert("Problemas", msg, null);
-//                    } else {
-//                        Info.display("Resultado", msg);
-//                    }
-//                }
-//            }
-//        };
-//        timer.schedule(500);
-//            EasyAccessURL eaurl = new EasyAccessURL(this);
-//            HashMap<String, String> param = new HashMap<String, String>();
-//            param.put("op", "adicionarUsuarioAoPerfil");
-//            param.put("pu_per_usuT.per_nr_id", per_perfilTGWT.getPer_nr_id() + "");
-//            param.put("pu_per_usuT.usu_nr_id", usuario_sistemaTGWT.getUsu_nr_id() + "");
-//
-//            eaurl.accessJSonMap(Constantes.URL + PAGE, param);
     }
 }
