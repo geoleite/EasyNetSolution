@@ -14,6 +14,8 @@ public interface IUsu_usuarioDAO {
 
     public void updateSenha(Usu_usuarioTGWT usu_usuarioT) throws Exception;
 
+    public void updateSenhaByUsuario(Usu_usuarioTGWT usu_usuarioT) throws Exception;
+
     public void delete(Usu_usuarioTGWT usu_usuarioT) throws Exception;
 
     public List<Usu_usuarioTGWT> resultSetToObjectTransfer(ResultSet rs) throws Exception;
@@ -42,5 +44,5 @@ public interface IUsu_usuarioDAO {
 
     public void close();
 
-    public DataSet executeQuery(String sql, Object[] parameter) throws Exception ;
+    public DataSet executeQuery(String sql, Object[] parameter) throws Exception;
 }

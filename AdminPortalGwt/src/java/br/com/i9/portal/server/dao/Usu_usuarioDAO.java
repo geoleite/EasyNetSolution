@@ -329,6 +329,29 @@ public class Usu_usuarioDAO extends ObjectDAOClusterAdminPortal implements IUsu_
 
         }
     }
+    
+    public void updateSenhaByUsuario(Usu_usuarioTGWT usu_usuarioT) throws Exception {
+        PreparedStatement pStmt = null;
+        try {
+            String sql = "update portal.usu_usuario set usu_tx_trocarsenha='N', usu_tx_senha=?  where  usu_nr_id=?";
+            pStmt = createPrepareStatment(sql);
+            pStmt.setObject(1, usu_usuarioT.getUsu_tx_senha());
+            pStmt.setObject(2, usu_usuarioT.getUsu_nr_id());
+            pStmt.execute();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                pStmt.close();
+            } catch (Exception e) {
+            }
+            try {
+                close();
+            } catch (Exception e) {
+            }
+
+        }
+    }    
 
     public List<Usu_usuarioTGWT> getByPerfil(Per_perfilTGWT perT) throws Exception {
         PreparedStatement pStmt = null;

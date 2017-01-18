@@ -340,4 +340,9 @@ public class Usu_usuarioDAO_Mysql extends ObjectDAO implements IUsu_usuarioDAO {
 
         }
     }
+
+    @Override
+    public void updateSenhaByUsuario(Usu_usuarioTGWT usu_usuarioT) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

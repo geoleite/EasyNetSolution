@@ -23,6 +23,7 @@ public interface Usu_usuarioService extends RemoteService {
     public void delete(Usu_usuarioTGWT usu_usuarioTGWT) throws Exception;
     public void findById(Usu_usuarioTGWT usu_usuarioTGWT) throws Exception;
     public void update(Usu_usuarioTGWT usu_usuarioTGWT) throws Exception;
+    public void updatePassword(Usu_usuarioTGWT usu_usuarioTGWT, String novaSenha) throws Exception;
     public List<Usu_usuarioTGWT> getAll() throws Exception;
     public List<Usu_usuarioTGWT> consultByPerfil(Per_perfilTGWT per_perfilTGWT) throws Exception;
     public List<Usu_usuarioTGWT> consultByNaoPerfil(Per_perfilTGWT per_perfilTGWT) throws Exception;
