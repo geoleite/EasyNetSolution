@@ -3,45 +3,30 @@
  */
 package br.com.i9.portal.client.portal.portal.men_menu;
 
-import br.com.easynet.gwt.client.EasyAccessURL;
-import br.com.easynet.gwt.client.EasyContainer;
-import br.com.easynet.gwt.client.IListenetResponse;
 import br.com.i9.portal.client.BaseBorderLayoutGWT;
-import br.com.i9.portal.client.Constantes;
 import br.com.i9.portal.client.portal.portal.dao.Men_menuDAOGWT;
-import br.com.i9.portal.client.portal.portal.dao.Mep_men_perDAOGWT;
 import br.com.i9.portal.client.portal.portal.transfer.Men_menuTGWT;
 import br.com.i9.portal.client.portal.portal.transfer.Mep_men_perTGWT;
 import br.com.i9.portal.client.portal.portal.transfer.Per_perfilTGWT;
 import br.com.i9.portal.client.rpc.EasyAdmPortalRPCFactory;
-import br.com.i9.portal.client.rpc.Men_menuService;
 import br.com.i9.portal.client.rpc.Men_menuServiceAsync;
-import br.com.i9.portal.client.rpc.Mep_men_perService;
 import br.com.i9.portal.client.rpc.Mep_men_perServiceAsync;
 
-import com.google.gwt.json.client.JSONValue;
 import java.util.ArrayList;
 import java.util.List;
 import com.extjs.gxt.ui.client.dnd.GridDragSource;
 import com.extjs.gxt.ui.client.dnd.GridDropTarget;
 import com.extjs.gxt.ui.client.event.DNDEvent;
 import com.extjs.gxt.ui.client.store.ListStore;
-import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.Info;
 import com.extjs.gxt.ui.client.widget.MessageBox;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
 import com.extjs.gxt.ui.client.widget.table.NumberCellRenderer;
-import com.google.gwt.core.client.GWT;
 
 import com.google.gwt.i18n.client.NumberFormat;
-import com.google.gwt.json.client.JSONObject;
-
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -56,6 +41,8 @@ public class MenuPerfilPermissao extends BaseBorderLayoutGWT {
     private Men_menuDAOGWT menDaoNaoVinculado = new Men_menuDAOGWT();
     private GridDropTarget targetVinc;
     private GridDropTarget targetNotVinc;
+    private Grid<Men_menuTGWT> grid_vinc;
+    private Grid<Men_menuTGWT> grid_notvinc;
 
     public MenuPerfilPermissao() {
         setModal(true);
@@ -71,8 +58,8 @@ public class MenuPerfilPermissao extends BaseBorderLayoutGWT {
     }
 
     public void montarTela() {
-        getCpRight().removeAll();
-        getCpMaster().removeAll();
+//        getCpRight().removeAll();
+//        getCpMaster().removeAll();
 
         AsyncCallback<List<Men_menuTGWT>> callbackYes = new AsyncCallback<List<Men_menuTGWT>>() {
 
@@ -83,36 +70,43 @@ public class MenuPerfilPermissao extends BaseBorderLayoutGWT {
 
             @Override
             public void onSuccess(List<Men_menuTGWT> result) {
+                if (grid_vinc == null) {
+                    final ColumnModel cmvinc = new ColumnModel(createConfig());
+                    ListStore<Men_menuTGWT> list = new ListStore<Men_menuTGWT>();
+                    list.add(result);
 
-                final ColumnModel cmvinc = new ColumnModel(createConfig());
-                ListStore<Men_menuTGWT> list = new ListStore<Men_menuTGWT>();
-                list.add(result);
+                    grid_vinc = new Grid<Men_menuTGWT>(list, cmvinc);
 
-                Grid<Men_menuTGWT> grid_vinc = new Grid<Men_menuTGWT>(list, cmvinc);
+                    grid_vinc.setLoadMask(true);
+                    grid_vinc.setBorders(true);
+                    grid_vinc.setStripeRows(true);
+                    getCpRight().add(grid_vinc);
 
-                grid_vinc.setLoadMask(true);
-                grid_vinc.setBorders(true);
-                grid_vinc.setStripeRows(true);
-                getCpRight().add(grid_vinc);
+                    GridDragSource gridSourceVinc = new GridDragSource(grid_vinc);
 
-                GridDragSource gridSourceVinc = new GridDragSource(grid_vinc);
+                    GridDropTarget targetVinc = new GridDropTarget(grid_vinc) {
 
-                GridDropTarget targetVinc = new GridDropTarget(grid_vinc) {
+                        protected void onDragDrop(DNDEvent event) {
 
-                    protected void onDragDrop(DNDEvent event) {
-
-                        List<Men_menuTGWT> lis = event.getData();
-                        if (!lis.isEmpty()) {
-                            for (Men_menuTGWT men_menuTGWT : lis) {
-                                adionarMenuAoPerfil(men_menuTGWT);
+                            List<Men_menuTGWT> lis = event.getData();
+                            if (!lis.isEmpty()) {
+                                for (Men_menuTGWT men_menuTGWT : lis) {
+                                    adionarMenuAoPerfil(men_menuTGWT);
+                                }
                             }
+                            super.onDragDrop(event);
                         }
-                        super.onDragDrop(event);
-                    }
-                };
-                targetVinc.setAllowSelfAsSource(false);
+                    };
+                    targetVinc.setAllowSelfAsSource(false);
+                } else {
+                    grid_vinc.getStore().removeAll();
+                    grid_vinc.getStore().add(result);
+                    grid_vinc.getView().refresh(true);
+
+                }
             }
         };
+
         Men_menuServiceAsync serviceYes = EasyAdmPortalRPCFactory.getMen_MenuService();
         serviceYes.consultByPerfil(per_perfilTGWT, callbackYes);
 
@@ -125,11 +119,12 @@ public class MenuPerfilPermissao extends BaseBorderLayoutGWT {
 
             @Override
             public void onSuccess(List<Men_menuTGWT> result) {
+                if(grid_notvinc == null){
 
                 ListStore<Men_menuTGWT> list = new ListStore<Men_menuTGWT>();
                 list.add(result);
                 ColumnModel cmnotvinc = new ColumnModel(createConfig());
-                Grid<Men_menuTGWT> grid_notvinc = new Grid<Men_menuTGWT>(list, cmnotvinc);
+                grid_notvinc = new Grid<Men_menuTGWT>(list, cmnotvinc);
                 grid_notvinc.setLoadMask(true);
                 grid_notvinc.setAutoExpandMin(200);
                 grid_notvinc.setBorders(true);
@@ -154,80 +149,15 @@ public class MenuPerfilPermissao extends BaseBorderLayoutGWT {
                 targetNotVinc.setAllowSelfAsSource(false);
 
                 layout();
+                }else{
+                    grid_notvinc.getStore().removeAll();
+                    grid_notvinc.getStore().add(result);
+                    grid_notvinc.getView().refresh(true);
+                }
             }
         };
         Men_menuServiceAsync serviceNot = EasyAdmPortalRPCFactory.getMen_MenuService();
         serviceNot.consultByNotPerfil(per_perfilTGWT, callbackNot);
-
-//        menDaoVinculado.consultByPerfil(per_perfilTGWT);
-//        menDaoNaoVinculado.consultByNotPerfil(per_perfilTGWT);
-//        Timer timer = new Timer() {
-//
-//            @Override
-//            public void run() {
-//                getCpMaster().removeAll();
-//                getCpRight().removeAll();
-//                ListStore<Men_menuTGWT> listVinculado = menDaoVinculado.getList();
-//                ListStore<Men_menuTGWT> listNaoVinculado = menDaoNaoVinculado.getList();
-//                if (listVinculado == null || listNaoVinculado == null) {
-//                    schedule(500);
-//                } else {
-//
-//                    ColumnModel cmnotvinc = new ColumnModel(createConfig());
-//                    Grid<Men_menuTGWT> grid_notvinc = new Grid<Men_menuTGWT>(listNaoVinculado, cmnotvinc);
-//                    grid_notvinc.setLoadMask(true);
-//                    grid_notvinc.setAutoExpandMin(200);
-//                    grid_notvinc.setBorders(true);
-//                    grid_notvinc.setStripeRows(true);
-//                    getCpMaster().add(grid_notvinc);
-//
-//                    final ColumnModel cmvinc = new ColumnModel(createConfig());
-//                    Grid<Men_menuTGWT> grid_vinc = new Grid<Men_menuTGWT>(listVinculado, cmvinc);
-//
-//                    grid_vinc.setLoadMask(true);
-//                    grid_vinc.setBorders(true);
-//                    grid_vinc.setStripeRows(true);
-//                    getCpRight().add(grid_vinc);
-//
-//                    GridDragSource gridSourceVinc = new GridDragSource(grid_vinc);
-//                    GridDragSource gridSourceNotVinc = new GridDragSource(grid_notvinc);
-//
-//                    GridDropTarget targetVinc = new GridDropTarget(grid_vinc) {
-//
-//                        protected void onDragDrop(DNDEvent event) {
-//
-//                            List<Men_menuTGWT> lis = event.getData();
-//                            if (!lis.isEmpty()) {
-//                                for (Men_menuTGWT men_menuTGWT : lis) {
-//                                    adionarMenuAoPerfil(men_menuTGWT);
-//                                }
-//                            }
-//                            super.onDragDrop(event);
-//                        }
-//                    };
-//                    targetVinc.setAllowSelfAsSource(false);
-//
-//                    GridDropTarget targetNotVinc = new GridDropTarget(grid_notvinc) {
-//
-//                        protected void onDragDrop(DNDEvent event) {
-//                            List<Men_menuTGWT> lis = event.getData();
-//                            if (!lis.isEmpty()) {
-//                                for (Men_menuTGWT men_menuTGWT : lis) {
-//                                    removerMenuAoPerfil(men_menuTGWT);
-//                                }
-//                            }
-//                            super.onDragDrop(event);
-//                        }
-//                    };
-//
-//                    targetNotVinc.setAllowSelfAsSource(false);
-//
-//                    layout();
-//                    doLayout();
-//                }
-//            }
-//        };
-//        timer.schedule(500);
     }
 
     public void load(Per_perfilTGWT per_perfilTGWT) {
