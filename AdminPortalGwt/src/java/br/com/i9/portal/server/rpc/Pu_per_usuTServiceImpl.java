@@ -16,7 +16,7 @@ import javax.servlet.annotation.WebServlet;
  *
  * @author topfontes
  */
-@WebServlet(name = "Pu_per_usuService", urlPatterns = {"/br.com.i9.portal.Main/rpc/pu_per_ususervice"})
+@WebServlet(name = "Pu_per_usuTService", urlPatterns = {"/br.com.i9.portal.Main/rpc/pu_per_usutservice"})
 public class Pu_per_usuTServiceImpl extends RemoteServiceServlet implements Pu_per_usuTService {
 
     public String myMethod(String s) {

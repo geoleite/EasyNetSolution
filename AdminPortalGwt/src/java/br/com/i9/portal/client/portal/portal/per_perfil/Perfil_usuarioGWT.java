@@ -40,6 +40,7 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,6 +127,7 @@ public class Perfil_usuarioGWT extends BaseBorderLayoutGWT {
 
                     protected void onDragDrop(DNDEvent event) {
                         List<Usu_usuarioTGWT> lis = event.getData();
+                        
                         if (!lis.isEmpty()) {
                             for (Usu_usuarioTGWT usuT : lis) {
                                 removerUsuarioDoPerfil(usuT);
@@ -171,6 +173,7 @@ public class Perfil_usuarioGWT extends BaseBorderLayoutGWT {
                 GridDropTarget targetVinc = new GridDropTarget(grid_vinc) {
 
                     protected void onDragDrop(DNDEvent event) {
+                       
                         List<Usu_usuarioTGWT> lis = event.getData();
                         if (!lis.isEmpty()) {
                             for (Usu_usuarioTGWT usuT : lis) {
@@ -188,70 +191,6 @@ public class Perfil_usuarioGWT extends BaseBorderLayoutGWT {
         };
         Usu_usuarioServiceAsync async = EasyAdmPortalRPCFactory.getUsu_UsuarioService();
         async.consultByPerfil(per_perfilTGWT, callback);
-
-//        usuDaoVinculado.consultByPerfil(per_perfilTGWT);
-//        usuDaoNaoVinculado.consultByNotPerfil(per_perfilTGWT);
-//        Timer timer = new Timer() {
-//
-//            @Override
-//            public void run() {
-//                ListStore<Usu_usuarioTGWT> listVinculado = usuDaoVinculado.getList();
-//                ListStore<Usu_usuarioTGWT> listNaoVinculado = usuDaoNaoVinculado.getList();
-//                if (listVinculado == null || listNaoVinculado == null) {
-//                    schedule(500);
-//                } else {
-//                    ColumnModel cmnotvinc = new ColumnModel(createConfig());
-//                    Grid<Usu_usuarioTGWT> grid_notvinc = new Grid<Usu_usuarioTGWT>(listNaoVinculado, cmnotvinc);
-//                    grid_notvinc.setLoadMask(true);
-//
-//                    grid_notvinc.setBorders(true);
-//                    grid_notvinc.setStripeRows(true);
-//                    getCpMaster().add(grid_notvinc);
-//
-//                    final ColumnModel cmvinc = new ColumnModel(createConfig());
-//                    Grid<Usu_usuarioTGWT> grid_vinc = new Grid<Usu_usuarioTGWT>(listVinculado, cmvinc);
-//                    grid_vinc.setLoadMask(true);
-//                    grid_vinc.setStripeRows(true);
-//
-//                    grid_vinc.setBorders(true);
-//
-//                    getCpRight().add(grid_vinc);
-//
-//                    GridDragSource gridSourceVinc = new GridDragSource(grid_vinc);
-//                    GridDragSource gridSourceNotVinc = new GridDragSource(grid_notvinc);
-//                    GridDropTarget targetVinc = new GridDropTarget(grid_vinc) {
-//
-//                        protected void onDragDrop(DNDEvent event) {
-//                            List<Usu_usuarioTGWT> lis = event.getData();
-//                            if (!lis.isEmpty()) {
-//                                for (Usu_usuarioTGWT usuT : lis) {
-//                                    adicionarUsuarioAoPerfil(usuT);
-//                                }
-//                            }
-//                            super.onDragDrop(event);
-//                        }
-//                    };
-//                    targetVinc.setAllowSelfAsSource(false);
-//
-//                    GridDropTarget targetNotVinc = new GridDropTarget(grid_notvinc) {
-//
-//                        protected void onDragDrop(DNDEvent event) {
-//                            List<Usu_usuarioTGWT> lis = event.getData();
-//                            if (!lis.isEmpty()) {
-//                                for (Usu_usuarioTGWT usuT : lis) {
-//                                    removerUsuarioDoPerfil(usuT);
-//                                }
-//                            }
-//                            super.onDragDrop(event);
-//                        }
-//                    };
-//                    targetNotVinc.setAllowSelfAsSource(false);
-//                    layout();
-//                    doLayout();
-//                }
-//            }
-//        };
-//        timer.schedule(500);
     }
 
     /**
@@ -277,29 +216,6 @@ public class Perfil_usuarioGWT extends BaseBorderLayoutGWT {
         Pu_per_usuTServiceAsync async = EasyAdmPortalRPCFactory.getPu_Per_UsuService();
         async.delete(puT, callback);
 
-//        puDao.excluir(puT);
-//        Timer timer = new Timer() {
-//
-//            public void run() {
-//                String msg = puDao.getMsg();
-//                if (msg == null) {
-//                    schedule(500);
-//                } else {
-//                    if (msg.toUpperCase().indexOf("FALHA") >= 0) {
-//                        MessageBox.alert("Problemas", msg, null);
-//                    } else {
-//                        Info.display("Resultado", msg);
-//                    }
-//                }
-//            }
-//        };
-//        timer.schedule(500);
-//            EasyAccessURL eaurl = new EasyAccessURL(this);
-//            HashMap<String, String> param = new HashMap<String, String>();
-//            param.put("op", "removerUsuarioDoPerfil");
-//            param.put("pu_per_usuT.per_nr_id", per_perfilTGWT.getPer_nr_id() + "");
-//            param.put("pu_per_usuT.usu_nr_id", usuario_sistemaTGWT.getUsu_nr_id() + "");
-//            eaurl.accessJSonMap(Constantes.URL + PAGE, param);
     }
 
     public void adicionarUsuarioAoPerfil(Usu_usuarioTGWT usuT) {

@@ -30,6 +30,8 @@ public interface IMen_menuDAO {
 
     public List<Men_menuT> getMenuPrimarioDash(Usu_usuarioT usu_usuarioT) throws Exception;
     
+    public List<Men_menuT> getAll(Usu_usuarioT usu_usuarioT) throws Exception;
+    
     public List<Men_menuT> getMenuPrimario(Usu_usuarioT usu_usuarioT, String sistema) throws Exception;
 
     public List<Men_menuT> getAll() throws Exception;

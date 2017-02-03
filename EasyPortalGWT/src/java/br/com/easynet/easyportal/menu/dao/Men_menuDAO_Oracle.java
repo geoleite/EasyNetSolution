@@ -490,4 +490,30 @@ public class Men_menuDAO_Oracle extends ObjectDAOClusterEasyPortal implements IM
             }
         }
     }
+
+    @Override
+    public List<Men_menuT> getAll(Usu_usuarioT usu_usuarioT) throws Exception {
+           try {
+            //String sql = "select men.* from portal.pu_per_usu pu, portal.mep_men_per mep, portal.men_menu men where pu.usu_nr_id=? and pu.per_nr_id=mep.per_nr_id and  mep.men_nr_id=men.men_nr_id and men.men_tx_status='A' and  men.supermenu_nr_id=0 order by men.men_nr_ordem, men_tx_nome";
+            String sql = "select distinct men.* from portal.pu_per_usu pu, portal.mep_men_per mep, portal.men_menu men where pu.usu_nr_id=? and pu.per_nr_id=mep.per_nr_id and  mep.men_nr_id=men.men_nr_id and men.men_tx_status='A' and men.men_tx_tipo='M' order by men.men_nr_ordem, men_tx_nome";
+            //pStmt = con.prepareStatement(sql);
+            pStmt = createPrepareStatment(sql);
+            pStmt.setInt(1, usu_usuarioT.getUsu_nr_id());
+            rs = pStmt.executeQuery();
+            return resultSetToObjectTransfer(rs);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                pStmt.close();
+            } catch (Exception e) {
+            }
+            try {
+                close();
+            } catch (Exception e) {
+            }
+
+        }
+    }
 }
