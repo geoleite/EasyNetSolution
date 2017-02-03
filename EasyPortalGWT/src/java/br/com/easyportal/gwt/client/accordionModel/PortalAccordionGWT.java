@@ -303,7 +303,7 @@ public class PortalAccordionGWT extends PortalBase implements IPrincipalPortal {
                 itemData.setMenuHandler(getMenuHandler(subacao));
                 treeStore.add(itemData, false);
             }
-            if (subMenu.size() > 1) {
+            if (subMenu.size() >= 1) {
                 TreePanel<ItemData> treePanel = new TreePanel<ItemData>(treeStore);
                 treePanel.setDisplayProperty("name");
                 treePanel.getStyle().setLeafIcon(BaseGWT.ICONS.form());
