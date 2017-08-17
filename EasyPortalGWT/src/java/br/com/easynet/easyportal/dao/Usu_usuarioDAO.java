@@ -20,7 +20,7 @@ public class Usu_usuarioDAO extends ObjectDAOClusterEasyPortal implements IUsu_u
     public Usu_usuarioDAO(DAOFactoryCluster dao) throws Exception {
         //setDAOFactory(dao);
         //con = dao.create();
-        //setdAOFactoryCluster(dao);
+        //setdAOFactoryCluster(dao)   ;
     }
 
     public void insert(Usu_usuarioT usu_usuarioT) throws Exception {
