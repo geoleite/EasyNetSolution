@@ -128,7 +128,6 @@ public class UsuUsuarioBL extends EasyPortalBusinessBase {
                                String novaSenha, String confNovaSenha) 
                                 throws Exception{
         try {
-            IUsu_usuarioDAO usu_usuarioDAO = getUsu_usuarioDAO();
             // Valida se a senha é diferente de null, no mínimo com 6 caracteres e igual a senha
             if (confNovaSenha == null) {
                 throw new Exception("Senha nao pode ser nula!");
@@ -143,12 +142,12 @@ public class UsuUsuarioBL extends EasyPortalBusinessBase {
             } 
             usu_usuarioT.setUsu_tx_senha(MD5.criptografar(senhaAtual));
             
-            if (usu_usuarioDAO.getByAutentication(usu_usuarioT).size() == 0) {
+            if (getUsu_usuarioDAO().getByAutentication(usu_usuarioT).size() == 0) {
                 throw new Exception("Senha atual nao confere!");
             }
             // Criptografando a Senha do usuário com o Algoritmo MD5  
             usu_usuarioT.setUsu_tx_senha(MD5.criptografar(novaSenha));
-            usu_usuarioDAO.updateSenha(usu_usuarioT);
+            getUsu_usuarioDAO().updateSenha(usu_usuarioT);
         } catch (Exception e) {
             easyLogger.error(e.getMessage(), e);
             throw e;
